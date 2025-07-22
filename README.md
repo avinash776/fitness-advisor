@@ -1,69 +1,39 @@
-# FitWise - AI-Powered Fitness Advisor
+# 💪 FitWise – Your AI-Powered Fitness Advisor
 
-A modern web application that provides personalized fitness advice using AI. Built with React, TypeScript, and Tailwind CSS.
+Welcome to **FitWise**, a smart and sleek web application designed to revolutionize your fitness journey. Powered by AI, FitWise crafts personalized health plans, matches you with the right virtual trainer, and helps you meet your fitness goals with precision and style.
 
-## Features
+Built using the latest frontend technologies — **React, TypeScript, and Tailwind CSS** — FitWise ensures a seamless, fast, and beautiful user experience on every device.
 
-- AI-powered fitness goal recommendations
-- Personalized trainer matching
-- Custom health plans based on individual needs
-- Modern, responsive design
-- Smooth animations and transitions
+---
 
-## Tech Stack
+## 🚀 Key Features
 
-- React 18
-- TypeScript
-- Tailwind CSS
-- React Router
-- AOS (Animate on Scroll)
-- NVIDIA AI API
+- 🧠 **AI-Generated Fitness Plans** – Get personalized routines based on your body type, goals, and preferences.
+- 🏋️ **Trainer Matching** – Smart recommendations to match you with virtual fitness experts.
+- 🍎 **Custom Diet & Workout Advice** – Plans tailored for weight loss, muscle gain, or overall wellness.
+- 📱 **Mobile-First Design** – Responsive layout optimized for all screen sizes.
+- ✨ **Smooth Animations** – AOS brings life to your scroll experience.
+- ⚡ **Fast & Lightweight** – Built with Vite for instant performance.
 
-## Getting Started
+---
 
-1. Clone the repository:
+## 🛠️ Tech Stack
+
+- **React 18** – Modern, component-based UI
+- **TypeScript** – Type safety and better developer experience
+- **Tailwind CSS** – Utility-first, responsive styling
+- **React Router** – Page navigation
+- **AOS (Animate on Scroll)** – Scroll-triggered animations
+- **Vite** – Lightning-fast dev/build tool
+- **NVIDIA AI API** – Backend intelligence for fitness recommendations
+
+---
+
+## 📦 Getting Started
+
+Follow these steps to run the project locally:
+
+1. **Clone the Repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/avinash776/fitness-advisor.git
 cd fitness-advisor
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm run dev
-```
-
-4. Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-## Project Structure
-
-```
-src/
-  ├── components/     # Reusable UI components
-  ├── pages/         # Page components
-  ├── utils/         # Utility functions
-  ├── App.tsx        # Main application component
-  └── main.tsx       # Application entry point
-```
-
-## Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
