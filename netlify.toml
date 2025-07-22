@@ -3,4 +3,5 @@
   publish = "dist"
 
 [environment]
+  NODE_VERSION = "18"
   VITE_GEMINI_API_KEY = "AIzaSyBqkRJhiTyGBV5ajft76ffvFvfAyEAz0Ac"
