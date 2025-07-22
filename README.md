@@ -1,39 +1,54 @@
 # 💪 FitWise – Your AI-Powered Fitness Advisor
 
-Welcome to **FitWise**, a smart and sleek web application designed to revolutionize your fitness journey. Powered by AI, FitWise crafts personalized health plans, matches you with the right virtual trainer, and helps you meet your fitness goals with precision and style.
+Welcome to FitWise, an intelligent fitness companion designed to help you achieve your health goals smarter and faster. Whether you’re a beginner, a fitness enthusiast, or an elite athlete, FitWise gives you customized AI-powered workout routines, meal planning, and personal trainer suggestions — all in one responsive, modern web app.
 
-Built using the latest frontend technologies — **React, TypeScript, and Tailwind CSS** — FitWise ensures a seamless, fast, and beautiful user experience on every device.
+Built using the latest technologies — React, TypeScript, and Tailwind CSS — FitWise ensures a smooth, beautiful experience on all devices. It's fast, intuitive, and supercharged by AI.
 
 ---
 
-## 🚀 Key Features
+## 🧠 Why FitWise?
 
-- 🧠 **AI-Generated Fitness Plans** – Get personalized routines based on your body type, goals, and preferences.
-- 🏋️ **Trainer Matching** – Smart recommendations to match you with virtual fitness experts.
-- 🍎 **Custom Diet & Workout Advice** – Plans tailored for weight loss, muscle gain, or overall wellness.
-- 📱 **Mobile-First Design** – Responsive layout optimized for all screen sizes.
-- ✨ **Smooth Animations** – AOS brings life to your scroll experience.
-- ⚡ **Fast & Lightweight** – Built with Vite for instant performance.
+Modern fitness needs modern solutions. Generic workout plans don’t work for everyone. FitWise uses AI intelligence (powered by NVIDIA APIs) to analyze your body type, goals, preferences, and health data — and then builds a personalized fitness experience tailored just for you.
+
+No more guesswork. Just smart, actionable, and personalized fitness advice that evolves with you.
+
+---
+
+## ✨ Key Features
+
+- AI-curated workouts based on your body type and goals
+- Goal tracking and adaptive fitness planning
+- Smart trainer matching system
+- Custom meal plans aligned with your workout routines
+- Nutritional breakdown and calorie tracking
+- AI feedback on daily habits and lifestyle
+- Responsive mobile-first design
+- Smooth animations using AOS (Animate on Scroll)
+- Fast performance with Vite and modular components
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **React 18** – Modern, component-based UI
-- **TypeScript** – Type safety and better developer experience
-- **Tailwind CSS** – Utility-first, responsive styling
-- **React Router** – Page navigation
-- **AOS (Animate on Scroll)** – Scroll-triggered animations
-- **Vite** – Lightning-fast dev/build tool
-- **NVIDIA AI API** – Backend intelligence for fitness recommendations
+- React 18 – UI Library for building components
+- TypeScript – Static typing for robust code
+- Tailwind CSS – Utility-first styling framework
+- React Router – Navigation and routing
+- AOS – Animation library for scroll effects
+- Vite – Fast dev server and build tool
+- NVIDIA AI API – Backend logic for AI fitness features
+
+---
+
+## 🚀 Live Demo
+
+(Replace this section with the live Netlify link after deployment)
+Example: https://fitwise-app.netlify.app
 
 ---
 
 ## 📦 Getting Started
 
-Follow these steps to run the project locally:
+To set up and run this project locally, follow these steps:
 
-1. **Clone the Repository**
-```bash
-git clone https://github.com/avinash776/fitness-advisor.git
-cd fitness-advisor
+1. Clone the Repository
