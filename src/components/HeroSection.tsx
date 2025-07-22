@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaDumbbell, FaRunning, FaAppleAlt } from 'react-icons/fa';
 

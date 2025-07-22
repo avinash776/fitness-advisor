@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaPlay, FaPause, FaStop, FaHeart, FaBrain, FaHandHoldingHeart } from 'react-icons/fa';
+import { FaStop, FaHeart, FaBrain, FaHandHoldingHeart } from 'react-icons/fa';
 import { getAIResponse } from '../utils/ai';
 
 interface WellnessActivity {
@@ -20,7 +20,7 @@ const WellnessPage = () => {
   const generateActivities = async () => {
     setIsLoading(true);
     try {
-      const response = await getAIResponse(
+      await getAIResponse(
         "Generate wellness activities including yoga poses, meditation techniques, and recovery exercises."
       );
       // Parse the AI response into activities

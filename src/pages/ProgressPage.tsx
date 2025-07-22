@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaChartLine, FaWeight, FaRunning, FaDumbbell } from 'react-icons/fa';
 
 interface ProgressData {
@@ -9,7 +9,7 @@ interface ProgressData {
 }
 
 const ProgressPage = () => {
-  const [progressData, setProgressData] = useState<ProgressData[]>([
+  const [progressData] = useState<ProgressData[]>([
     { date: '2024-03-01', weight: 75, workouts: 3, caloriesBurned: 1200 },
     { date: '2024-03-08', weight: 74, workouts: 4, caloriesBurned: 1500 },
     { date: '2024-03-15', weight: 73, workouts: 5, caloriesBurned: 1800 },

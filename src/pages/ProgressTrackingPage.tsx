@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -30,7 +30,7 @@ interface ProgressData {
 }
 
 const ProgressTrackingPage = () => {
-  const [progressData, setProgressData] = useState<ProgressData[]>([
+  const [progressData] = useState<ProgressData[]>([
     { date: '2024-01-01', weight: 70, workouts: 3, calories: 2000 },
     { date: '2024-01-08', weight: 69, workouts: 4, calories: 1900 },
     { date: '2024-01-15', weight: 68, workouts: 5, calories: 1800 },

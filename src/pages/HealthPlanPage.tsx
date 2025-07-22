@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaHeartbeat, FaPaperPlane, FaRobot, FaSpinner } from 'react-icons/fa';
 import { getAIHealthAdvice } from '../utils/ai';
 

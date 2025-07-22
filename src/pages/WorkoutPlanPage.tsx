@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaPlay, FaPause, FaStop, FaEdit, FaSave, FaDumbbell, FaRunning, FaHeartbeat } from 'react-icons/fa';
+import { FaPlay, FaStop, FaEdit, FaSave } from 'react-icons/fa';
 import { getAIHealthAdvice } from '../utils/ai';
 
 interface Exercise {
@@ -26,11 +26,11 @@ interface UserPreferences {
 const WorkoutPlanPage = () => {
   const [workoutPlan, setWorkoutPlan] = useState<WorkoutPlan | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [currentExercise, setCurrentExercise] = useState(0);
+  const [currentExercise] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [progress] = useState(0);
   const [userPreferences, setUserPreferences] = useState<UserPreferences>({
     fitnessLevel: 'beginner',
     goal: 'build_muscle',
@@ -45,7 +45,7 @@ const WorkoutPlanPage = () => {
         Preferred exercise types: ${userPreferences.preferredExercises.join(', ')}. 
         Include 5-10 exercises with sets, reps, rest periods, and detailed instructions.`;
       
-      const response = await getAIHealthAdvice(prompt);
+      await getAIHealthAdvice(prompt);
       
       // Parse the AI response into a workout plan
       // This is a simplified example - you'd want to parse the actual AI response
@@ -85,14 +85,6 @@ const WorkoutPlanPage = () => {
   const stopTimer = () => {
     setIsTimerRunning(false);
     setTimeLeft(0);
-  };
-
-  const updateProgress = () => {
-    if (workoutPlan) {
-      const totalExercises = workoutPlan.exercises.length;
-      const completedExercises = currentExercise + 1;
-      setProgress((completedExercises / totalExercises) * 100);
-    }
   };
 
   React.useEffect(() => {

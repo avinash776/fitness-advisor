@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 export const getAIHealthAdvice = async (question: string): Promise<string> => {
   return getAIResponse(question);
 };

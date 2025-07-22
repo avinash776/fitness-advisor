@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaUser, FaEnvelope, FaLock, FaDumbbell, FaWeight, FaRuler, FaChartLine } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaUser, FaEnvelope, FaDumbbell, FaWeight, FaRuler, FaChartLine } from 'react-icons/fa';
 
 interface UserProfile {
   name: string;
@@ -27,7 +27,7 @@ const ProfilePage = () => {
     goals: ['Build Muscle', 'Improve Endurance']
   });
 
-  const [progressData, setProgressData] = useState<ProgressData[]>([
+  const [progressData] = useState<ProgressData[]>([
     { date: '2024-03-01', weight: 75, workouts: 3, caloriesBurned: 1200 },
     { date: '2024-03-08', weight: 74, workouts: 4, caloriesBurned: 1500 },
     { date: '2024-03-15', weight: 73, workouts: 5, caloriesBurned: 1800 },

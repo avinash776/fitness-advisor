@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { FaHome, FaDumbbell, FaUser, FaUtensils, FaHeartbeat } from 'react-icons/fa';
 import HomePage from './pages/HomePage';

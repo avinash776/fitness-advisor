@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaUtensils, FaPlus, FaTrash } from 'react-icons/fa';
 
 interface Meal {
