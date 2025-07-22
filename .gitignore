@@ -8,9 +8,7 @@ yarn-error.log*
 # Dependency directories
 node_modules/
 
-# Build output
-dist/
-dist-ssr/
+
 
 # Local environment files
 *.local
