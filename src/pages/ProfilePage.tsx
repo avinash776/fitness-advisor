@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaUser, FaEnvelope, FaDumbbell, FaWeight, FaRuler, FaChartLine, FaFire, FaTrophy, FaMedal, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
+import { FaEnvelope, FaDumbbell, FaWeight, FaRuler, FaChartLine, FaFire, FaTrophy, FaMedal, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 
 interface UserProfile {
   name: string;
