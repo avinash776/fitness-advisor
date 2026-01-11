@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaUser, FaEnvelope, FaDumbbell, FaWeight, FaRuler, FaChartLine } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaDumbbell, FaWeight, FaRuler, FaChartLine, FaFire, FaTrophy, FaMedal, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 
 interface UserProfile {
   name: string;
@@ -16,6 +16,13 @@ interface ProgressData {
   workouts: number;
   caloriesBurned: number;
 }
+
+const achievements = [
+  { icon: FaTrophy, title: 'First Workout', desc: 'Completed your first workout', unlocked: true, color: 'from-yellow-500 to-amber-500' },
+  { icon: FaFire, title: '7-Day Streak', desc: 'Worked out for 7 days straight', unlocked: true, color: 'from-orange-500 to-red-500' },
+  { icon: FaMedal, title: 'Macro Master', desc: 'Hit your macros for 30 days', unlocked: false, color: 'from-purple-500 to-pink-500' },
+  { icon: FaDumbbell, title: 'Power Lifter', desc: 'Completed 100 workouts', unlocked: false, color: 'from-blue-500 to-cyan-500' },
+];
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<UserProfile>({
@@ -35,240 +42,286 @@ const ProfilePage = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState<UserProfile>(profile);
-  const [aiResponse, setAiResponse] = useState<string>('');
 
   const handleSave = () => {
     setProfile(editedProfile);
     setIsEditing(false);
-    // Generate AI response based on profile changes
-    generateAIResponse();
   };
 
-  const generateAIResponse = () => {
-    const response = `Based on your profile, here are my recommendations:
+  const stats = [
+    { label: 'Workouts', value: '48', icon: FaDumbbell, color: 'from-primary-500 to-primary-600' },
+    { label: 'Calories Burned', value: '12.5K', icon: FaFire, color: 'from-orange-500 to-red-500' },
+    { label: 'Current Streak', value: '7 days', icon: FaChartLine, color: 'from-green-500 to-emerald-500' },
+  ];
 
-1. Focus on progressive overload in your workouts to build muscle
-2. Increase protein intake to 1.6-2.2g per kg of body weight
-3. Include compound exercises like squats, deadlifts, and bench press
-4. Aim for 7-9 hours of sleep for optimal recovery
-5. Stay hydrated with at least 3L of water daily
-6. Consider adding HIIT sessions 2-3 times per week
-7. Track your progress with weekly measurements
-8. Maintain a slight caloric surplus for muscle growth
-9. Include rest days in your training schedule
-10. Consider working with a nutritionist for meal planning`;
-
-    setAiResponse(response);
+  const getFitnessLevelColor = (level: string) => {
+    switch (level) {
+      case 'beginner': return 'text-green-400';
+      case 'intermediate': return 'text-yellow-400';
+      case 'advanced': return 'text-red-400';
+      default: return 'text-gray-400';
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-indigo-800 text-white">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center opacity-20"
-        style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")'
-        }}
-      />
+    <div className="min-h-screen bg-dark-900 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-mesh opacity-40" />
+      <div className="absolute top-20 left-1/4 w-80 h-80 bg-accent-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl" />
 
       <div className="relative z-10 container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8 text-center">Your Profile</h1>
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">
+            <span className="gradient-text">Your Profile</span>
+          </h1>
+          <p className="text-gray-400 text-lg">Track your progress and manage your fitness journey</p>
+        </div>
 
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-indigo-800 rounded-lg shadow-xl p-6 mb-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Profile Card */}
+          <div className="glass-card rounded-3xl p-8 mb-8">
             {!isEditing ? (
               <>
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center">
-                    <FaUser className="text-3xl mr-4" />
-                    <h2 className="text-2xl font-bold">{profile.name}</h2>
+                <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8">
+                  {/* Avatar */}
+                  <div className="relative">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-4xl font-heading font-bold text-white shadow-glow-primary">
+                      {profile.name.charAt(0)}
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-green-500 border-4 border-dark-900 flex items-center justify-center">
+                      <FaDumbbell className="text-white text-xs" />
+                    </div>
                   </div>
+
+                  {/* User Info */}
+                  <div className="flex-1 text-center md:text-left">
+                    <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
+                      <h2 className="font-heading text-2xl font-bold">{profile.name}</h2>
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium glass ${getFitnessLevelColor(profile.fitnessLevel)}`}>
+                        {profile.fitnessLevel.charAt(0).toUpperCase() + profile.fitnessLevel.slice(1)}
+                      </span>
+                    </div>
+                    <p className="text-gray-400 flex items-center justify-center md:justify-start gap-2 mb-4">
+                      <FaEnvelope className="text-sm" />
+                      {profile.email}
+                    </p>
+                    <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                      {profile.goals.map((goal, index) => (
+                        <span key={index} className="px-3 py-1 rounded-full glass text-sm text-primary-400">
+                          {goal}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Edit Button */}
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+                    className="btn-secondary flex items-center gap-2"
                   >
+                    <FaEdit />
                     Edit Profile
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex items-center">
-                    <FaEnvelope className="text-xl mr-3" />
-                    <span>{profile.email}</span>
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  <div className="glass rounded-xl p-4 text-center">
+                    <FaRuler className="text-secondary-400 text-xl mx-auto mb-2" />
+                    <div className="font-heading text-2xl font-bold">{profile.height}</div>
+                    <div className="text-gray-400 text-sm">cm</div>
                   </div>
-                  <div className="flex items-center">
-                    <FaDumbbell className="text-xl mr-3" />
-                    <span>Fitness Level: {profile.fitnessLevel}</span>
+                  <div className="glass rounded-xl p-4 text-center">
+                    <FaWeight className="text-primary-400 text-xl mx-auto mb-2" />
+                    <div className="font-heading text-2xl font-bold">{profile.weight}</div>
+                    <div className="text-gray-400 text-sm">kg</div>
                   </div>
-                  <div className="flex items-center">
-                    <FaRuler className="text-xl mr-3" />
-                    <span>Height: {profile.height} cm</span>
+                  <div className="glass rounded-xl p-4 text-center">
+                    <FaChartLine className="text-green-400 text-xl mx-auto mb-2" />
+                    <div className="font-heading text-2xl font-bold">-2</div>
+                    <div className="text-gray-400 text-sm">kg this month</div>
                   </div>
-                  <div className="flex items-center">
-                    <FaWeight className="text-xl mr-3" />
-                    <span>Weight: {profile.weight} kg</span>
+                  <div className="glass rounded-xl p-4 text-center">
+                    <FaFire className="text-orange-400 text-xl mx-auto mb-2" />
+                    <div className="font-heading text-2xl font-bold">22.9</div>
+                    <div className="text-gray-400 text-sm">BMI</div>
                   </div>
-                </div>
-
-                <div className="mt-6">
-                  <h3 className="text-xl font-semibold mb-3">Goals</h3>
-                  <ul className="list-disc pl-5">
-                    {profile.goals.map((goal, index) => (
-                      <li key={index} className="text-gray-300">{goal}</li>
-                    ))}
-                  </ul>
                 </div>
               </>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
-                <div className="space-y-4">
+              /* Edit Form */
+              <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="animate-scale-in">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="font-heading text-xl font-bold">Edit Profile</h2>
+                  <button
+                    type="button"
+                    onClick={() => { setIsEditing(false); setEditedProfile(profile); }}
+                    className="text-gray-400 hover:text-white"
+                  >
+                    <FaTimes className="text-xl" />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div>
-                    <label className="block text-gray-300 mb-2">Name</label>
+                    <label className="block text-gray-400 text-sm mb-2">Name</label>
                     <input
                       type="text"
                       value={editedProfile.name}
                       onChange={(e) => setEditedProfile(prev => ({ ...prev, name: e.target.value }))}
-                      className="w-full p-3 bg-indigo-700 rounded-lg text-white"
+                      className="input-glass w-full"
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-300 mb-2">Email</label>
+                    <label className="block text-gray-400 text-sm mb-2">Email</label>
                     <input
                       type="email"
                       value={editedProfile.email}
                       onChange={(e) => setEditedProfile(prev => ({ ...prev, email: e.target.value }))}
-                      className="w-full p-3 bg-indigo-700 rounded-lg text-white"
+                      className="input-glass w-full"
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-300 mb-2">Height (cm)</label>
+                    <label className="block text-gray-400 text-sm mb-2">Height (cm)</label>
                     <input
                       type="number"
                       value={editedProfile.height}
                       onChange={(e) => setEditedProfile(prev => ({ ...prev, height: Number(e.target.value) }))}
-                      className="w-full p-3 bg-indigo-700 rounded-lg text-white"
+                      className="input-glass w-full"
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-300 mb-2">Weight (kg)</label>
+                    <label className="block text-gray-400 text-sm mb-2">Weight (kg)</label>
                     <input
                       type="number"
                       value={editedProfile.weight}
                       onChange={(e) => setEditedProfile(prev => ({ ...prev, weight: Number(e.target.value) }))}
-                      className="w-full p-3 bg-indigo-700 rounded-lg text-white"
+                      className="input-glass w-full"
                     />
                   </div>
-                  <div>
-                    <label className="block text-gray-300 mb-2">Fitness Level</label>
+                  <div className="md:col-span-2">
+                    <label className="block text-gray-400 text-sm mb-2">Fitness Level</label>
                     <select
                       value={editedProfile.fitnessLevel}
                       onChange={(e) => setEditedProfile(prev => ({ ...prev, fitnessLevel: e.target.value as UserProfile['fitnessLevel'] }))}
-                      className="w-full p-3 bg-indigo-700 rounded-lg text-white"
+                      className="select-glass w-full"
                     >
-                      <option value="beginner">Beginner</option>
-                      <option value="intermediate">Intermediate</option>
-                      <option value="advanced">Advanced</option>
+                      <option value="beginner">🌱 Beginner</option>
+                      <option value="intermediate">💪 Intermediate</option>
+                      <option value="advanced">🔥 Advanced</option>
                     </select>
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-4 mt-6">
-                  <button
-                    type="button"
-                    onClick={() => setIsEditing(false)}
-                    className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
-                  >
-                    Cancel
+                <div className="flex gap-4">
+                  <button type="submit" className="btn-primary flex-1 py-3 flex items-center justify-center gap-2">
+                    <FaSave />
+                    Save Changes
                   </button>
                   <button
-                    type="submit"
-                    className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+                    type="button"
+                    onClick={() => { setIsEditing(false); setEditedProfile(profile); }}
+                    className="btn-secondary flex-1 py-3"
                   >
-                    Save Changes
+                    Cancel
                   </button>
                 </div>
               </form>
             )}
           </div>
 
-          {/* Progress Section */}
-          <div className="bg-indigo-800 rounded-lg shadow-xl p-6 mb-8">
-            <h2 className="text-2xl font-bold mb-6 flex items-center">
-              <FaChartLine className="mr-2" />
-              Progress Tracking
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            {stats.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <div key={index} className="glass-card glass-card-hover rounded-2xl p-6 text-center">
+                  <div className={`w-14 h-14 mx-auto rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4`}>
+                    <Icon className="text-white text-2xl" />
+                  </div>
+                  <div className="font-heading text-3xl font-bold gradient-text mb-1">{stat.value}</div>
+                  <div className="text-gray-400">{stat.label}</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Achievements */}
+          <div className="glass-card rounded-3xl p-8 mb-8">
+            <h2 className="font-heading text-xl font-bold mb-6 flex items-center gap-2">
+              <FaTrophy className="text-yellow-500" />
+              Achievements
             </h2>
-
-            {/* Progress Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-indigo-700 p-4 rounded-lg">
-                <div className="flex items-center mb-2">
-                  <FaWeight className="text-blue-400 mr-2" />
-                  <h3 className="text-lg font-semibold">Weight Progress</h3>
-                </div>
-                <p className="text-2xl font-bold">-2 kg</p>
-                <p className="text-gray-400 text-sm">Last 2 weeks</p>
-              </div>
-
-              <div className="bg-indigo-700 p-4 rounded-lg">
-                <div className="flex items-center mb-2">
-                  <FaDumbbell className="text-green-400 mr-2" />
-                  <h3 className="text-lg font-semibold">Workouts</h3>
-                </div>
-                <p className="text-2xl font-bold">12</p>
-                <p className="text-gray-400 text-sm">This month</p>
-              </div>
-
-              <div className="bg-indigo-700 p-4 rounded-lg">
-                <div className="flex items-center mb-2">
-                  <FaChartLine className="text-purple-400 mr-2" />
-                  <h3 className="text-lg font-semibold">Calories Burned</h3>
-                </div>
-                <p className="text-2xl font-bold">4,500</p>
-                <p className="text-gray-400 text-sm">This month</p>
-              </div>
-            </div>
-
-            {/* Progress History */}
-            <div className="bg-indigo-700 rounded-lg p-4">
-              <h3 className="text-xl font-semibold mb-4">Progress History</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="text-left border-b border-indigo-600">
-                      <th className="pb-2">Date</th>
-                      <th className="pb-2">Weight (kg)</th>
-                      <th className="pb-2">Workouts</th>
-                      <th className="pb-2">Calories Burned</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {progressData.map((data, index) => (
-                      <tr key={index} className="border-b border-indigo-600">
-                        <td className="py-2">{data.date}</td>
-                        <td className="py-2">{data.weight}</td>
-                        <td className="py-2">{data.workouts}</td>
-                        <td className="py-2">{data.caloriesBurned}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {achievements.map((achievement, index) => {
+                const Icon = achievement.icon;
+                return (
+                  <div
+                    key={index}
+                    className={`glass rounded-xl p-4 flex items-center gap-4 transition-all ${achievement.unlocked ? '' : 'opacity-40 grayscale'
+                      }`}
+                  >
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${achievement.color} flex items-center justify-center ${achievement.unlocked ? 'animate-pulse-glow' : ''
+                      }`}>
+                      <Icon className="text-white text-xl" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">{achievement.title}</h3>
+                      <p className="text-gray-400 text-sm">{achievement.desc}</p>
+                    </div>
+                    {achievement.unlocked && (
+                      <span className="ml-auto text-green-400 text-sm font-medium">✓ Unlocked</span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
-          {/* AI Recommendations */}
-          {aiResponse && (
-            <div className="bg-indigo-800 rounded-lg shadow-xl p-6">
-              <h2 className="text-2xl font-bold mb-4">AI Recommendations</h2>
-              <div className="bg-indigo-700 rounded-lg p-4">
-                <pre className="whitespace-pre-wrap text-gray-300">{aiResponse}</pre>
-              </div>
+          {/* Progress History */}
+          <div className="glass-card rounded-3xl p-8">
+            <h2 className="font-heading text-xl font-bold mb-6 flex items-center gap-2">
+              <FaChartLine className="text-green-500" />
+              Progress History
+            </h2>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-left border-b border-white/10">
+                    <th className="pb-4 text-gray-400 font-medium">Date</th>
+                    <th className="pb-4 text-gray-400 font-medium">Weight</th>
+                    <th className="pb-4 text-gray-400 font-medium">Workouts</th>
+                    <th className="pb-4 text-gray-400 font-medium">Calories</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {progressData.map((data, index) => (
+                    <tr key={index} className="border-b border-white/5">
+                      <td className="py-4">{data.date}</td>
+                      <td className="py-4">
+                        <span className="font-heading font-bold">{data.weight}</span>
+                        <span className="text-gray-400 text-sm ml-1">kg</span>
+                      </td>
+                      <td className="py-4">
+                        <span className="px-3 py-1 rounded-full bg-primary-500/20 text-primary-400 text-sm">
+                          {data.workouts} sessions
+                        </span>
+                      </td>
+                      <td className="py-4">
+                        <span className="font-heading font-bold text-orange-400">{data.caloriesBurned.toLocaleString()}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default ProfilePage; 
+export default ProfilePage;

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { FaHeartbeat, FaPaperPlane, FaRobot, FaSpinner } from 'react-icons/fa';
+import { useState, useRef, useEffect } from 'react';
+import { FaHeartbeat, FaPaperPlane, FaRobot, FaTint, FaBed, FaAppleAlt, FaWalking, FaBrain, FaLeaf } from 'react-icons/fa';
 import { getAIHealthAdvice } from '../utils/ai';
 
 interface HealthAdvice {
@@ -9,41 +9,66 @@ interface HealthAdvice {
   timestamp: string;
 }
 
-const HealthPlanPage = () => {
-  const [advice, setAdvice] = useState<HealthAdvice[]>([
-    {
-      id: 1,
-      question: "What's a good exercise routine for beginners?",
-      answer: `Here's a comprehensive beginner's exercise routine:
+const healthTips = [
+  {
+    icon: FaTint,
+    title: 'Stay Hydrated',
+    desc: 'Drink at least 8 glasses of water daily for optimal health.',
+    color: 'from-blue-500 to-cyan-500',
+  },
+  {
+    icon: FaBed,
+    title: 'Quality Sleep',
+    desc: 'Aim for 7-9 hours of quality sleep each night.',
+    color: 'from-purple-500 to-indigo-500',
+  },
+  {
+    icon: FaAppleAlt,
+    title: 'Balanced Nutrition',
+    desc: 'Focus on whole foods, lean proteins, and vegetables.',
+    color: 'from-green-500 to-emerald-500',
+  },
+  {
+    icon: FaWalking,
+    title: 'Stay Active',
+    desc: 'Get at least 30 minutes of movement every day.',
+    color: 'from-orange-500 to-red-500',
+  },
+  {
+    icon: FaBrain,
+    title: 'Mental Health',
+    desc: 'Practice mindfulness and take breaks when needed.',
+    color: 'from-pink-500 to-rose-500',
+  },
+  {
+    icon: FaLeaf,
+    title: 'Stress Management',
+    desc: 'Find healthy ways to manage and reduce stress.',
+    color: 'from-teal-500 to-green-500',
+  },
+];
 
-1. Start with 5-10 minutes of light cardio (walking, jogging)
-2. Perform basic bodyweight exercises:
-   - 10 push-ups (modified if needed)
-   - 15 squats
-   - 10 lunges per leg
-   - 30-second plank
-3. Rest for 1-2 minutes between sets
-4. Repeat the circuit 2-3 times
-5. Finish with 5-10 minutes of stretching
-6. Aim for 3 sessions per week
-7. Gradually increase intensity and duration
-8. Focus on proper form over quantity
-9. Stay hydrated throughout
-10. Listen to your body and rest when needed`,
-      timestamp: "2024-03-15 10:30"
-    }
-  ]);
+const HealthPlanPage = () => {
+  const [advice, setAdvice] = useState<HealthAdvice[]>([]);
   const [question, setQuestion] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [advice]);
 
   const handleAskQuestion = async () => {
     if (!question.trim() || isLoading) return;
 
-    // Add user question
     const newAdvice: HealthAdvice = {
-      id: advice.length + 1,
+      id: Date.now(),
       question: question,
-      answer: "Let me analyze your question and provide personalized advice...",
+      answer: '',
       timestamp: new Date().toLocaleString()
     };
     setAdvice([...advice, newAdvice]);
@@ -52,16 +77,16 @@ const HealthPlanPage = () => {
 
     try {
       const aiResponse = await getAIHealthAdvice(question);
-      setAdvice(prev => prev.map(item => 
-        item.id === newAdvice.id 
+      setAdvice(prev => prev.map(item =>
+        item.id === newAdvice.id
           ? { ...item, answer: aiResponse }
           : item
       ));
     } catch (error) {
       console.error('Error getting AI advice:', error);
-      setAdvice(prev => prev.map(item => 
-        item.id === newAdvice.id 
-          ? { ...item, answer: "I apologize, but I encountered an error while generating advice. Please try again later." }
+      setAdvice(prev => prev.map(item =>
+        item.id === newAdvice.id
+          ? { ...item, answer: "I apologize, but I encountered an error. Please try again." }
           : item
       ));
     } finally {
@@ -70,76 +95,140 @@ const HealthPlanPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 flex items-center">
-          <FaHeartbeat className="mr-2" />
-          Health Plan & AI Advice
-        </h1>
+    <div className="min-h-screen bg-dark-900 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-mesh opacity-40" />
+      <div className="absolute top-20 right-20 w-80 h-80 bg-red-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-40 left-20 w-72 h-72 bg-secondary-500/10 rounded-full blur-3xl" />
 
-        {/* Health Tips Section */}
-        <div className="bg-gray-800 rounded-lg p-4 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Daily Health Tips</h2>
-          <div className="space-y-4">
-            <div className="bg-gray-700 rounded p-4">
-              <h3 className="font-semibold mb-2">Stay Hydrated</h3>
-              <p className="text-gray-300">Drink at least 8 glasses of water daily to maintain optimal health and performance.</p>
-            </div>
-            <div className="bg-gray-700 rounded p-4">
-              <h3 className="font-semibold mb-2">Get Enough Sleep</h3>
-              <p className="text-gray-300">Aim for 7-9 hours of quality sleep each night to support recovery and overall health.</p>
-            </div>
-            <div className="bg-gray-700 rounded p-4">
-              <h3 className="font-semibold mb-2">Balanced Nutrition</h3>
-              <p className="text-gray-300">Focus on whole foods, lean proteins, and plenty of fruits and vegetables.</p>
-            </div>
+      <div className="relative z-10 container mx-auto px-4 py-12">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-4">
+            <FaHeartbeat className="text-red-500 animate-pulse" />
+            <span className="text-sm font-medium text-gray-300">Health & Wellness</span>
+          </div>
+          <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">
+            <span className="gradient-text">AI Health</span> Advisor
+          </h1>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            Get personalized health advice powered by artificial intelligence
+          </p>
+        </div>
+
+        {/* Health Tips Grid */}
+        <div className="max-w-6xl mx-auto mb-12">
+          <h2 className="font-heading text-2xl font-semibold mb-6 text-center">Daily Health Tips</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {healthTips.map((tip, index) => {
+              const Icon = tip.icon;
+              return (
+                <div
+                  key={index}
+                  className="glass-card glass-card-hover rounded-2xl p-6 group"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tip.color} flex items-center justify-center mb-4 transform transition-transform group-hover:scale-110 group-hover:rotate-3`}>
+                    <Icon className="text-white text-xl" />
+                  </div>
+                  <h3 className="font-heading font-semibold text-lg mb-2">{tip.title}</h3>
+                  <p className="text-gray-400 text-sm">{tip.desc}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* AI Advice Section */}
-        <div className="bg-gray-800 rounded-lg p-4">
-          <h2 className="text-xl font-semibold mb-4 flex items-center">
-            <FaRobot className="mr-2" />
-            Ask for Health Advice
-          </h2>
-          
-          {/* Advice History */}
-          <div className="space-y-4 mb-4">
-            {advice.map((item) => (
-              <div key={item.id} className="bg-gray-700 rounded p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold">Q: {item.question}</h3>
-                  <span className="text-sm text-gray-400">{item.timestamp}</span>
+        {/* AI Chat Section */}
+        <div className="max-w-3xl mx-auto">
+          <div className="glass-card rounded-3xl overflow-hidden">
+            {/* Chat Header */}
+            <div className="bg-gradient-to-r from-primary-500/20 to-secondary-500/20 p-6 border-b border-white/5">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center animate-pulse-glow">
+                  <FaRobot className="text-white text-xl" />
                 </div>
-                <pre className="whitespace-pre-wrap text-gray-300">A: {item.answer}</pre>
+                <div>
+                  <h3 className="font-heading font-semibold text-lg">AI Health Assistant</h3>
+                  <span className="text-green-400 text-sm flex items-center gap-1">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                    Online
+                  </span>
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
 
-          {/* Question Input */}
-          <div className="flex items-center space-x-2">
-            <input
-              type="text"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleAskQuestion()}
-              placeholder="Ask a health or fitness question..."
-              className="flex-1 bg-gray-700 rounded p-2 text-white"
-              disabled={isLoading}
-            />
-            <button
-              onClick={handleAskQuestion}
-              className={`bg-blue-600 text-white p-2 rounded hover:bg-blue-700 flex items-center ${
-                isLoading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <FaSpinner className="animate-spin" />
-              ) : (
-                <FaPaperPlane />
-              )}
-            </button>
+            {/* Chat Messages */}
+            <div className="h-96 overflow-y-auto p-6 space-y-4">
+              {/* Welcome Message */}
+              <div className="flex gap-3">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center flex-shrink-0">
+                  <FaRobot className="text-white text-sm" />
+                </div>
+                <div className="glass rounded-2xl rounded-tl-none p-4 max-w-[80%]">
+                  <p className="text-gray-300">
+                    👋 Hi! I'm your AI Health Assistant. Ask me anything about fitness, nutrition, or wellness!
+                  </p>
+                </div>
+              </div>
+
+              {/* Chat History */}
+              {advice.map((item) => (
+                <div key={item.id} className="space-y-4">
+                  {/* User Message */}
+                  <div className="flex gap-3 justify-end">
+                    <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl rounded-tr-none p-4 max-w-[80%]">
+                      <p className="text-white">{item.question}</p>
+                    </div>
+                  </div>
+
+                  {/* AI Response */}
+                  <div className="flex gap-3">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center flex-shrink-0">
+                      <FaRobot className="text-white text-sm" />
+                    </div>
+                    <div className="glass rounded-2xl rounded-tl-none p-4 max-w-[80%]">
+                      {item.answer ? (
+                        <pre className="whitespace-pre-wrap text-gray-300 font-sans text-sm">{item.answer}</pre>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-primary-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                          <div className="w-2 h-2 bg-primary-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                          <div className="w-2 h-2 bg-primary-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div ref={chatEndRef} />
+            </div>
+
+            {/* Chat Input */}
+            <div className="p-4 border-t border-white/5">
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleAskQuestion()}
+                  placeholder="Ask about health, fitness, or nutrition..."
+                  className="input-glass flex-1"
+                  disabled={isLoading}
+                />
+                <button
+                  onClick={handleAskQuestion}
+                  disabled={isLoading || !question.trim()}
+                  className="btn-primary px-6 py-3 flex items-center gap-2 disabled:opacity-50"
+                >
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <FaPaperPlane />
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -147,4 +236,4 @@ const HealthPlanPage = () => {
   );
 };
 
-export default HealthPlanPage; 
+export default HealthPlanPage;

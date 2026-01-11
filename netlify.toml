@@ -1,7 +1,19 @@
 [build]
   command = "npm install --legacy-peer-deps && npm run build"
   publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
 
 [environment]
   NODE_VERSION = "18"
-  VITE_GEMINI_API_KEY = "AIzaSyBqkRJhiTyGBV5ajft76ffvFvfAyEAz0Ac"
+
+# Environment variable for the API key (set this in Netlify dashboard for security)
+# NVIDIA_API_KEY = "your-api-key-here"
+
+# Redirect for SPA routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
