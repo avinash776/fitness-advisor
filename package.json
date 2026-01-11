@@ -11,7 +11,7 @@
     "dev:full": "start cmd /c \"npm run dev:proxy\" && npm run dev",
     "dev:netlify": "netlify dev",
     "build": "tsc && vite build",
-    "preview": "vite preview --port 8080 --host",
+    "preview": "vite preview --host 0.0.0.0 --port 8080",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
